@@ -1,0 +1,62 @@
+#PROVIDER: nome do provedor (registry.terraform.io): aws, oci, azure, etc
+
+provider "aws" {
+  region  = "us-east-1"
+  account = "maispeor2 "
+}
+
+resource "aws_instance" "nome: referencia interna do terraform (web)" {
+  ami           = data.aws_ami.ubuntu.id
+  instante_type = "t2.micro"
+}
+
+data "aws_ami" "ubuntu" {
+  //podemos usar para pegar uma versão mais recente do ubuntu quando formos modificar a imagem, por exemplo
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubunut/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = "hvm"
+  }
+
+  owners = ["099720109477"] # Canonical
+}
+
+module "name" {
+  source = "/caminho/para/o/seu/modulo/pode-ser-fisico/ou/git-por-exemplo"
+  //inputs        
+}
+
+/*
+
+VARIAVEL: 
+
+variable "nome_de_uma_variavel" {
+    type    = "tipo da variável: string, number, bool, etc" 
+    default = "Sempre informar um valor para ela, caso contrário dará erro"
+}
+
+output "nome_do_output" {
+    value = "Algum output de um resource, módulo ou variável"
+}
+
+Exemplo:
+
+variable "idade" {
+    type        = number
+    default     = 28
+    description = "Qual é a sua idade?"
+}
+
+output "output_idade" {
+    value       = var.idade
+    description = "Sua idade"
+}
+
+*/
+
+#Acessar um valor de um resource: tipo.nome.algum_output
